@@ -1,0 +1,286 @@
+@charset "ISO-8859-1";
+
+h1 {
+	position: relative;
+	display: inline-block;
+	margin: auto;
+	top: 0px;
+	left: 2.5%;
+	color: #a62b21;
+	font-family: Galada;
+}
+
+#fcontainer {
+	display: flex;
+	width: 95%;
+}
+
+.nav {
+	position: relative;
+	display: inline;
+	float: right;
+	margin-left: 10px;
+	text-decoration: none;
+	right: 2.5%;
+	color: #9A9898;
+	
+}
+
+#header {
+	position: relative;
+	width: 95%;
+  	border: 1px solid #ccc;
+  	border-radius: 15px;
+ 	top: 80%;
+ 	display: block;
+ 	margin: auto;
+ 	margin-top: 25px;
+ 	margin-bottom: 25px;
+}
+
+#header1 {
+	position: relative;
+	margin: auto;
+	margin-bottom: 25px;
+	margin-top: 25px;
+	border-bottom: 0.5px solid #c0c0c0;
+}
+#header2 {
+	position: relative;
+	margin: auto;
+	margin-bottom: 25px;
+	margin-top: 25px;
+	border-bottom: 0.5px solid #c0c0c0;
+	display: none;
+}
+
+body {
+	font-family: 'FontAwesome', sans-serif;
+}
+
+#name {
+	position: relative;
+	width: 90%;
+	left: 0px;
+	margin: 0;
+}
+
+
+#search {
+	position: relative;
+	width: 7%;
+	display: inline;
+	float: right;
+}
+
+#lo {
+	position: relative;
+	width: 47.5%;
+	float: right;
+	display: inline;
+	right: 0;
+	margin: 0;
+	margin-top: 40px;
+}
+
+#la {
+	position: relative;
+	width: 47.5%;
+	float: left;
+	display: inline;
+	margin: 0;
+	margin-top: 40px;
+}
+
+input {
+	width:40%;
+	padding: 8px;
+	box-sizing: border-box;
+}
+
+fieldset {
+	position: relative;
+	display: inline-block;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+.gensearch {
+	position: relative;
+	width: 55%;
+	display: block;
+	left: 2.5%;
+	padding: 0;
+	border: none;
+}
+
+.extrasearch {
+	position: relative;
+	width: 42.5%;
+	display: block;
+	left: 60px;
+	padding: 0;
+	border: none;
+}
+
+label {
+	position: relative;
+	display: inline;
+	margin: 0;
+}
+
+.stext {
+	position: relative;
+	margin-right: 20px;
+	margin-botoom: 10px;
+	margin-top: 10px;
+	height: 40px;
+	border: 0.5px solid #c0c0c0;
+	border-radius: 5px;
+	font-size: 20px;
+}
+
+#search {
+	height: 40px;
+	color: white;
+	background-color: #a62b21;
+	border: none;
+	border-radius: 5px;
+}
+
+input[type="submit"] {
+	color: white;
+	background-color: #a62b21;
+	border: none;
+	border-radius: 5px;
+}
+
+.g1 {
+	position: relative;
+	width: 40%;
+	display: inline-block;
+	margin-bottom: 20px;
+	
+}
+
+#rc {
+	position: relative;
+	display: inline;
+	margin: 0;
+	
+}
+
+#rt {
+	position: relative;
+	display: inline;
+	margin-left: 10px;
+}
+
+#dt {
+	position: relative;
+	display: inline;
+	margin-left: 10px;
+}
+
+#bs {
+	position: relative;
+	display: inline;
+	margin-left: 0;
+}
+
+.gmaps {
+	position: relative;
+	width: 100%;
+	display: block;
+	background-color: #3498db;
+	height: 40px;
+	border-radius: 5px;
+	border: 2px solid #3498db;
+	bottom: 0%;
+	color: white;
+	text-align: center;
+	font-size: 30px;
+}
+
+#map {
+	height: 100%;
+}
+
+/* The Overlay (background) */
+.overlay {
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */   
+  height: 100%;
+  width: 0;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  background-color: rgb(0,0,0); /* Black fallback color */
+  background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+
+/* Position the content inside the overlay */
+.overlay-content {
+  position: relative;
+  top: 25%; /* 25% from the top */
+  width: 100%; /* 100% width */
+  text-align: center; /* Centered text/links */
+  margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+}
+
+#logsig {
+	position: relative;
+	width: 95%;
+	display: flex;
+	border: none;
+	margin: auto;
+	padding: 0;
+}
+
+.1gi {
+	position: relative;
+	width: 42.5%;
+	display: block;
+	align-content: left;
+	border: none;
+	padding: 0;
+	right: 250px;
+	
+}
+
+.su {
+	position: relative;
+	width: 42.5%;
+	display: block;
+	align-content: center;
+	border: none;
+	float: right;
+	left: 2.5%;
+	padding: 0;
+}
+
+
+
+.ltext {
+	position: relative;
+	width: 700px;
+	display: block;
+	margin-bottom: 20px;
+	margin-top: 10px;
+	margin-left: 0;
+	margin-right: 0;
+	text-align: center;
+}
+
+legend {
+	margin: 0;
+	font-size: 40px;
+}
+
+.results {
+	position: relative;
+	border-bottom: 0.5px solid #c0c0c0;
+	height: 80px;
+}

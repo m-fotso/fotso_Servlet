@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>JoesTable!</title>
+<link href='https://fonts.googleapis.com/css?family=Galada' rel='stylesheet'>
+<link rel="stylesheet" href="./Style.css"/>
+<link rel="stylesheet" href="./font-awesome.min.css"/>
+
+<script>
+	var kid;
+	var kname;
+	function searchIT() {
+		
+		const xhr = new XMLHttpRequest();
+		let surl = "SearchServlet?"
+		let name = document.searchform.name.value;
+		let longitude = document.searchform.lo.value;
+		let latitude = document.searchform.la.value;
+		let special = document.searchform.extra.value;
+		xhr.withCredentials = true;
+		surl += "la=" + latitude;
+		surl += "&lo=" + longitude;
+		surl += "&name=" + name;
+		surl += "&extra="+special;
+		
+		xhr.open("GET", surl, true);
+		xhr.onreadystatechange = function() {
+		if(xhr.readyState === XMLHttpRequest.DONE) {
+			var status = xhr.status;
+			if(status === 0 || (status >= 200 && status < 400)) {
+				document.getElementById("responsebody").innerHTML = xhr.responseText;
+				
+				var logout = document.getElementById("homebody");
+				logout.style.display = 'none';
+				var ti_img = document.getElementById("responsebody");
+				ti_img.style.display = 'block';
+				
+				
+			} else {
+				return false;
+			}
+		}
+		} 
+		xhr.send();
+		return false;
+	}
+	
+	function detailIT(obj) {
+		
+		const xhr = new XMLHttpRequest();
+		let surl = "DetailServlet?";
+		let name = obj.id;
+		let uid = document.getElementById("header2").getAttribute("id-value");
+		console.log(name);
+		xhr.withCredentials = true;
+		surl += "link=" + name;
+		surl += "&userID="+kid;
+		
+		xhr.open("GET", surl, true);
+		xhr.onreadystatechange = function() {
+		if(xhr.readyState === XMLHttpRequest.DONE) {
+			var status = xhr.status;
+			if(status === 0 || (status >= 200 && status < 400)) {
+				document.getElementById("detailbody").innerHTML = xhr.responseText;
+				var logout = document.getElementById("detailbody");
+				logout.style.display = 'block';
+				var ti_img = document.getElementById("responsebody");
+				ti_img.style.display = 'none';
+				
+			} else {
+				return false;
+			}
+		}
+		} 
+		xhr.send();
+		return false;
+	}
+	
+	function fav() {
+		const xhr = new XMLHttpRequest();
+		let surl = "FavServlet?";
+		var d = document.getElementById("info");
+		let name = d.getAttribute("name-value");
+		let longitude = d.getAttribute("lo-value");
+		let latitude = d.getAttribute("la-value");
+		let uid = document.getElementById("header2").getAttribute("id-value");
+		surl += "name="+name;
+		surl += "&longitude=" + longitude;
+		surl += "&latitude=" + latitude;
+		surl += "&userID=" + kid;
+		xhr.open("GET", surl, true);
+		xhr.onreadystatechange = function() {
+		if(xhr.readyState === XMLHttpRequest.DONE) {
+			var status = xhr.status;
+			if(status === 0 || (status >= 200 && status < 400)) {
+				document.getElementById("detailbody").innerHTML = xhr.responseText;
+				
+				
+			} else {
+				return false;
+			}
+		}
+		} 
+		var home = document.getElementById("homebody");
+		home.style.display = 'block';
+		var ti_img = document.getElementById("responsebody");
+		ti_img.style.display = 'none';
+		var det = document.getElementById("detailbody");
+		det.style.display = 'none';
+		xhr.send();
+		return false;
+	}
+	
+	function res() {
+		const xhr = new XMLHttpRequest();
+		let surl = "ReserveServlet?";
+		let date = document.reserveform.rdate.value;
+		let time = document.reserveform.rtime.value;
+		let note = document.reserveform.rnotes.value;
+		let name = document.getElementById("info").getAttribute("name-value");
+		var d = document.getElementById("info");
+		let longitude = d.getAttribute("lo-value");
+		let latitude = d.getAttribute("la-value");
+		xhr.withCredentials = true;
+		surl += "date=" + date;
+		surl += "&time=" + time;
+		surl += "&note=" + note;
+		surl += "&name=" + name;
+		surl += "&longitude=" +longitude;
+		surl += "&latitude=" +latitude;
+		surl += "&userID=" +kid;
+		console.log(surl);
+		xhr.open("GET", surl, true);
+		xhr.onreadystatechange = function() {
+		if(xhr.readyState === XMLHttpRequest.DONE) {
+			var status = xhr.status;
+			if(status === 0 || (status >= 200 && status < 400)) {
+				document.getElementById("detailbody").innerHTML = xhr.responseText;
+				
+				
+			} else {
+				return false;
+			}
+		}
+		}
+		var home = document.getElementById("homebody");
+		home.style.display = 'block';
+		var ti_img = document.getElementById("responsebody");
+		ti_img.style.display = 'none';
+		var det = document.getElementById("detailbody");
+		det.style.display = 'none';
+		xhr.send();
+		return false;
+	}
+	
+	function resDisplay() {
+		document.getElementById("detailbody").innerHTML += "<form id=\"reserveform\" name=\"reserveform\" onsubmit=\"res()\">		\r\n"
+			+ "		<input type=\"date\" name=\"rdate\" id=\"rdate\" placeholder=\"Date\" required>\r\n"
+			+ "		<input type=\"time\" name=\"rtime\" id=\"rtime\" placeholder=\"Time\" required>\r\n"
+			+ "		<input type=\"text\" name=\"rnotes\" id=\"rnotes\" placeholder=\"Reservation Notes\">\r\n"
+			+ "		<input type=\"submit\" value=\"Submit Reservation\">\r\n"
+			+ "	</form>"
+	}
+	
+	function logDisplay() {
+		document.getElementById("responsebody").innerHTML = "<div id='logsig'>\n"+
+	"<form name='userform' onsubmit = 'return logIn()'>\n"+
+		"<fieldset class='lgi'>\n"+
+			"<legend>Login</legend>\n"+
+			"<label for='usname'>Username</label>\n"+
+			"<input type='text' id='usname' name='usname' class='ltext' REQUIRED>\n"+
+			"<label for='pass'>Password</label>\n"+
+			"<input type='password' id='pass' name='pass' class='ltext' REQUIRED>\n"+
+			"<input type='submit' value='&#61579Sign In' class='ltext' REQUIRED>\n"+
+		"</fieldset>\n"+
+	"</form>\n"+
+	"<form name='signform' onsubmit = 'return signUp()'>\n"+
+		"+<fieldset class='su'>\n"+
+			"<legend>Sign Up</legend>\n"+
+			"<label for='nemail'>Email</label>\n"+
+			"<input type='text' id='nemail' name='nemail' class='ltext' REQUIRED>\n"+
+			"<label for='nusname'>Username</label>\n"+
+			"<input type='text' id='nusname' name='nusname' class='ltext' REQUIRED>\n"+
+			"<label for='npass'>Password</label>\n"+
+			"<input type='password' id='npass' name='npass' class='ltext' REQUIRED>\n"+
+			"<label for='cpass'>Confirm Password</label>\n"+
+			"<input type='password' id='cpass' name='cpass' class='ltext' REQUIRED>\n"+
+			"<input type='submit' value='&#62004Sign Up' class='ltext'>\n"+
+		"</fieldset>\n"+
+	"</form>\n"+
+	"</div>";
+		var logout = document.getElementById("homebody");
+		logout.style.display = 'none';
+		var ti_img = document.getElementById("responsebody");
+		ti_img.style.display = 'block';
+		var det = document.getElementById("detailbody");
+		det.style.display = 'none';
+		return false;
+		
+	}
+	
+	function logIn() {
+		const xhr = new XMLHttpRequest();
+		let url = "LUserServlet?"
+		let name = document.userform.usname.value;
+		let pass = document.userform.pass.value;
+		url += "usname=" + name;
+		url += "&pass="+pass;
+		xhr.open("GET", url, true);
+		xhr.onreadystatechange = function() {
+		if(xhr.readyState === XMLHttpRequest.DONE) {
+			var status = xhr.status;
+			if(status === 0 || (status >= 200 && status < 400)) {
+				if(Object.keys(xhr.responseText).length === 0) {
+					alert("User could not be found.");
+					return false;
+				}
+				var myObj = JSON.parse(xhr.responseText);
+				console.log(myObj);
+				kid = myObj.userID;
+				kname = myObj.username;
+				
+				var login = document.getElementById("header2");
+				login.style.display= 'block';
+				login.setAttribute("id-value", myObj.userId);
+				var logout = document.getElementById("header1");
+				logout.style.display = 'none';
+				var home = document.getElementById("homebody");
+				home.style.display = 'block';
+				var ti_img = document.getElementById("responsebody");
+				ti_img.style.display = 'none';
+				var det = document.getElementById("detailbody");
+				det.style.display = 'none';
+				
+			} else {
+				//there is an error
+			}
+		}
+		} 
+		xhr.send();
+		
+		return false;
+	}
+	
+	function signUp() {
+		const xhr = new XMLHttpRequest();
+		let url = "UserServlet?"
+		let name = document.signform.nusname.value;
+		let email = document.signform.nemail.value;
+		let pass = document.signform.npass.value;
+		let cpass = document.signform.cpass.value;
+		
+		if(cpass.localeCompare(pass) != 0) {
+			alert('Passwords do not match.');
+			return false;
+		}
+		
+		url += "nusname=" + name;
+		url += "&npass="+pass;
+		url += "&nemail="+email;
+		url += "&cpass="+cpass;
+		xhr.open("GET", url, true);
+		xhr.onreadystatechange = function() {
+		if(xhr.readyState === XMLHttpRequest.DONE) {
+			var status = xhr.status;
+			console.log("working");
+			if(status === 0 || (status >= 200 && status < 400)) {
+				if(Object.keys(xhr.responseText).length === 0) {
+					alert("User could not be found.");
+					return false;
+				}
+				var myObj = JSON.parse(xhr.responseText);
+				console.log(myObj);
+				
+				var login = document.getElementById("header2");
+				login.style.display= 'block';
+				login.setAttribute("id-value", myObj.userId);
+				var logout = document.getElementById("header1");
+				logout.style.display = 'none';
+				var home = document.getElementById("homebody");
+				home.style.display = 'block';
+				var ti_img = document.getElementById("responsebody");
+				ti_img.style.display = 'none';
+				var det = document.getElementById("detailbody");
+				det.style.display = 'none';
+				
+			} else {
+				//there is an error
+			}
+		}
+		}
+		xhr.send();
+		
+		return false;
+	}
+	
+	function displayFavorites() {
+		const xhr = new XMLHttpRequest();
+		let url = "gFavServlet?"
+		url += "userID=" + kid;
+		url += "&userN="+kname;
+		
+		xhr.open("GET", url, true);
+		xhr.onreadystatechange = function() {
+		if(xhr.readyState === XMLHttpRequest.DONE) {
+			var status = xhr.status;
+			console.log("working");
+			if(status === 0 || (status >= 200 && status < 400)) {
+				document.getElementById("responsebody").innerHTML = xhr.responseText;
+				var login = document.getElementById("header2");
+				login.style.display= 'block';
+				login.setAttribute("id-value", myObj.userId);
+				var logout = document.getElementById("header1");
+				logout.style.display = 'none';
+				var home = document.getElementById("homebody");
+				home.style.display = 'none';
+				var ti_img = document.getElementById("responsebody");
+				ti_img.style.display = 'block';
+				var det = document.getElementById("detailbody");
+				det.style.display = 'none';
+				
+			} else {
+				//there is an error
+			}
+		}
+		}
+		xhr.send();
+		
+		return false;
+	}
+	
+	function displayReservations() {
+		const xhr = new XMLHttpRequest();
+		let url = "gResServlet?"
+		url += "userID=" + kid;
+		url += "&userN="+kname;
+		
+		xhr.open("GET", url, true);
+		xhr.onreadystatechange = function() {
+		if(xhr.readyState === XMLHttpRequest.DONE) {
+			var status = xhr.status;
+			console.log("working");
+			if(status === 0 || (status >= 200 && status < 400)) {
+				document.getElementById("responsebody").innerHTML = xhr.responseText;
+				var login = document.getElementById("header2");
+				login.style.display= 'block';
+				login.setAttribute("id-value", myObj.userId);
+				var logout = document.getElementById("header1");
+				logout.style.display = 'none';
+				var home = document.getElementById("homebody");
+				home.style.display = 'none';
+				var ti_img = document.getElementById("responsebody");
+				ti_img.style.display = 'block';
+				var det = document.getElementById("detailbody");
+				det.style.display = 'none';
+				
+			} else {
+				//there is an error
+			}
+		}
+		}
+		xhr.send();
+		
+		return false;
+	}
+	
+</script>
+</head>
+<body>
+	
+	<div id="header1">
+	<h1 id="title">JoesTable!</h1>
+	<a href="javascript:void(0)" onclick="return logDisplay()" class="nav" id="ls">Login/Sign Up</a>
+	<a href="Restaur.html" class="nav" id="ho">Home</a>
+	</div>
+	<div hidden='hidden' id="header2">
+		<h1 id="title">JoesTable!</h1>
+		<a href="javascript:void()" onclick="return logDisplay()" class="nav" id="ls">Logout</a>
+		<a href="javascript:void()" onclick="return displayReservations()" class="nav" id="ls">Reservations</a>
+		<a href="javascript:void()" onclick="return displayFavorites()" class="nav" id="ls">Favorites</a>
+		<a href="Restaur.html" class="nav" id="ho">Home</a>
+	</div>
+	<div id="homebody">
+	<img src="HNCK5665.jpg" alt="header-img" id="header">
+	
+	
+	<form name="searchform" onsubmit="return searchIT()">
+	<div id="fcontainer">
+		<fieldset class="gensearch">
+			<input type="text" id="name" class="stext" name="name" placeholder="Restaurant Name"  REQUIRED/>
+			<input type="submit" id="search" value=&#f002;>
+			<input type="number" id="la" class="stext" name="la" step="any" placeholder="Latitude"  REQUIRED/>
+			<input type="number" id="lo" class="stext" name="lo" step="any" placeholder="Longitude"  REQUIRED/>
+		</fieldset>
+		
+		<fieldset class="extrasearch">
+			<div class="g1">
+			<input type="radio" id="bs" name="extra" value="best_match" checked required>
+			<label for="bs">Best Match</label>
+			</div>
+			<div class="g1">
+			<input type="radio" id="rc" name="extra" value="review_count" required>
+			<label for="rc">Review Count</label>
+			</div>
+			<div class="g1">
+			<input type="radio" id="rt" name="extra" value="rating" required>
+			<label for="rt">Rating</label>
+			</div>
+			<div class="g1">
+			<input type="radio" id="dt" name="extra" value="distance" required>	
+			<label for="dt">Distance</label>
+			</div>
+			<span onclick="openNav()" class="gmaps">&#61505; Google Maps (Drop a pin!)</span>
+		</fieldset>
+		</div>
+		
+	</form>
+	</div>
+	<div id="responsebody" hidden='hidden'></div>
+	<div id="detailbody" hidden='hidden'>
+	
+	</div>
+	
+	<div id="favorite"></div>
+	
+	
+	<!-- The overlay -->
+<div id="myNav" class="overlay">
+
+  <!-- Button to close the overlay navigation -->
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	
+  <!-- Overlay content API: AIzaSyCi-itp3O_y9idU33L2BMQ3FaCPXZpjAkc -->
+  <div class="overlay-content">
+  	<div id="map"></div>
+    
+  </div>
+
+</div>
+<div id="response"></div>
+<script>
+	/* Open when someone clicks on the span element */
+	function openNav() {
+  		document.getElementById("myNav").style.width = "100%";
+	}
+
+	/* Close when someone clicks on the "x" symbol inside the overlay */
+	function closeNav() {
+  		document.getElementById("myNav").style.width = "0%";
+	}
+</script>
+<!-- Use any element to open/show the overlay navigation menu -->
+
+</body>
+</html>

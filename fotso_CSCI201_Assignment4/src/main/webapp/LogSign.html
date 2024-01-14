@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>JoesTable!</title>
+<link rel="stylesheet" href="./Style.css"/>
+<link rel="stylesheet" href="./font-awesome.min.css"/>
+<link href='https://fonts.googleapis.com/css?family=Galada' rel='stylesheet'>
+
+<script>
+	function logIn() {
+		const xhr = new XMLHttpRequest();
+		let url = "LUserServlet?"
+		let name = document.userform.usname.value;
+		let pass = document.userform.pass.value;
+		url += "usname=" + name;
+		url += "&pass="+pass;
+		xhr.open("GET", url, true);
+		xhr.onreadystatechange = function() {
+		if(xhr.readyState === XMLHttpRequest.DONE) {
+			var status = xhr.status;
+			if(status === 0 || (status >= 200 && status < 400)) {
+				var myObj = JSON.parse(xhr.responseText);
+				console.log(myObj);
+				if(isObjectEmpty(myObj) === true) {
+					alert("User could not be found.");
+					return false;
+				}
+				localStorage.setItem("user", myObj);
+				var login = document.getElementById("header2");
+				login.hidden = !login.hidden;
+				var logout = document.getElementById("header1");
+				logout.hidden = !logout.hidden;
+				
+			} else {
+				//there is an error
+			}
+		}
+		} 
+		xhr.send();
+		window.location.href = 'Restaur.html';
+		return false;
+	}
+	
+	function signUp() {
+		const xhr = new XMLHttpRequest();
+		let url = "UserServlet?"
+		let name = document.signform.nusname.value;
+		let email = document.signform.nemail.value;
+		let pass = document.signform.npass.value;
+		let cpass = document.signform.cpass.value;
+		
+		if(cpass.localeCompare(pass) != 0) {
+			alert('Passwords do not match.');
+			return false;
+		}
+		
+		url += "nusname=" + name;
+		url += "&npass="+pass;
+		url += "&nemail="+email;
+		url += "&cpass="+cpass;
+		xhr.open("GET", url, true);
+		xhr.onreadystatechange = function() {
+		if(xhr.readyState === XMLHttpRequest.DONE) {
+			var status = xhr.status;
+			console.log("working");
+			if(status === 0 || (status >= 200 && status < 400)) {
+				console.log(xhr.responseText);
+				var myObj = JSON.parse(xhr.responseText);
+				console.log(myObj);
+				if(myObj.length ===0) {
+					alert("User already exists.");
+					return false;
+				}
+				
+				var login = document.getElementById("header2");
+				login.setAttribute("id-value", myObj.userId);
+				login.hidden = !login.hidden;
+				var logout = document.getElementById("header1");
+				logout.hidden = !logout.hidden;
+				
+			} else {
+				//there is an error
+			}
+		}
+		}
+		xhr.send();
+		//window.location.href = 'Restaur.html';
+		return false;
+	}
+	
+</script>
+</head>
+<body>
+	<div id="header1">
+		<h1 id="title">JoesTable!</h1>
+		<a href="LogSign.html" class="nav" id="ls">Login/Sign Up</a>
+		<a href="Restaur.html" class="nav" id="ho">Home</a>
+	</div>
+	<div id="logsig">
+	<form name="userform" onsubmit = "return logIn()">
+		<fieldset class="lgi">
+			<legend>Login</legend>
+			<label for="usname">Username</label>
+			<input type="text" id="usname" name="usname" class="ltext" REQUIRED>
+			<label for="pass">Password</label>
+			<input type="password" id="pass" name="pass" class="ltext" REQUIRED>
+			<input type="submit" value="&#61579Sign In" class="ltext" REQUIRED>
+		</fieldset>
+	</form>
+	<form name="signform" onsubmit = "return signUp()">
+		<fieldset class="su">
+			<legend>Sign Up</legend>
+			<label for="nemail">Email</label>
+			<input type="text" id="nemail" name="nemail" class="ltext" REQUIRED>
+			<label for="nusname">Username</label>
+			<input type="text" id="nusname" name="nusname" class="ltext" REQUIRED>
+			<label for="npass">Password</label>
+			<input type="password" id="npass" name="npass" class="ltext" REQUIRED>
+			<label for="cpass">Confirm Password</label>
+			<input type="password" id="cpass" name="cpass" class="ltext" REQUIRED>
+			<input type="submit" value="&#62004Sign Up" class="ltext">
+		</fieldset>
+	</form>
+	</div>
+</body>
+</html>

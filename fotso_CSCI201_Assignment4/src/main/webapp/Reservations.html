@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Reservations</title>
+<link rel="stylesheet" href="./Style.css"/>
+<link rel="stylesheet" href="./font-awesome.min.css"/>
+<script type="module"></script>
+<script>
+	function search() {
+		
+		const xhr = new XMLHttpRequest();
+		let surl = "https://api.yelp.com/v3/businesses/search?"
+		let name = document.searchform.name.value;
+		let longitude = document.searchform.longitude.value;
+		let latitude = document.searchform.latitude.value;
+		let special = document.searchform.extra.value;
+		
+		surl += "latitude=" + latitude;
+		surl += "&longitude=" + longitude;
+		surl += "&term=" + name;
+		surl += "&sort_by=" + special+"&limit=20";
+		xhr.open("GET", surl, true);
+		xhr.setRequestHeader("Authorization", "Bearer Mp4d8Az47GO6cwrSAbbu1eZ4LQ2eQRi4hICPJWro6qBZhdmJfhpKOTCqguW4GlX255d3rmoPKeSjMgmh7FXuCkgo7pjEaC9dg9i3vsvsHOmtUFxtbYoQftorbHA3ZXYx");
+		xhr.onreadystatechange = function() {
+		if(xhr.readyState === XMLHttpRequest.DONE) {
+		console.log("ready");
+		return false;
+			var status = xhr.status;
+			if(status === 0 || (status >= 200 && status < 400)) {
+				return false;
+				var myObj = JSON.parse(xhr.responseText);
+				console.log(myObj);
+				document.getElementById("response").innerHTML = "<p>"+xhr.responseText+"</p>";
+				
+				localStorage.setItem("search", myObj);
+				window.location.href = "Search.html";
+			} else {
+				//there is an error
+			}
+		}
+		} 
+		xhr.send();
+		return false;
+	}
+</script>
+</head>
+<body>
+		<div id="header1">
+		<h1 id="title">JoesTable!</h1>
+		<a href="LogSign.html" class="nav" id="ls">Login/Sign Up</a>
+		<a href="Restaur.html" class="nav" id="ho">Home</a>
+	</div>
+		<form name="searchform" onsubmit="return search()">
+	<div id="fcontainer">
+		<fieldset class="gensearch">
+			<input type="text" id="name" class="stext" name="name" placeholder="Restaurant Name">
+			<input type="submit" id="search" value="&#61442;">
+			<input type="text" id="la" class="stext" name="la" step="any" placeholder="Latitude">
+			<input type="text" id="lo" class="stext" name="lo" step="any" placeholder="Longitude">
+		</fieldset>
+		
+		<fieldset class="extrasearch">
+			<div class="g1">
+			<input type="radio" id="bs" name="extra" value="best_match" checked>
+			<label for="bs">Best Match</label>
+			</div>
+			<div class="g1">
+			<input type="radio" id="rc" name="extra" value="review_count">
+			<label for="rc">Review Count</label>
+			</div>
+			<div class="g1">
+			<input type="radio" id="rt" name="extra" value="rating">
+			<label for="rt">Rating</label>
+			</div>
+			<div class="g1">
+			<input type="radio" id="dt" name="extra" value="distance">	
+			<label for="dt">Distance</label>
+			</div>
+			<span onclick="openNav()" class="gmaps">&#61505; Google Maps (Drop a pin!)</span>
+		</fieldset>
+		</div>
+		
+	</form>
+	<form name="reserveform">
+		<select id="sb" name ="sb">
+				<option value="A to Z">A to Z</option>
+				<option value="Z to A">Z to A</option>
+				<option value="Highest Rating">Highest Rating</option>
+				<option value="Lowest Rating">Lowest Rating</option>
+				<option value="Most Recent">Most Recent</option>
+				<option value="Least Recent">Least Recent</option>
+		</select>
+	</form>
+	<!-- The overlay -->
+<div id="myNav" class="overlay">
+
+  <!-- Button to close the overlay navigation -->
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	
+  <!-- Overlay content API: AIzaSyCi-itp3O_y9idU33L2BMQ3FaCPXZpjAkc -->
+  <div class="overlay-content">
+  	<div id="map"></div>
+    <script type="text/javascript">
+ 
+  // Initialize and add the map
+var map;
+var tmarker;
+var geocoder;
+var responseDiv;
+var response;
+
+async function initMap() {
+  // The location of Uluru
+  const position = { lat: 34.02116, lng: -118.287132 };
+  // Request needed libraries.
+  //@ts-ignore
+  const { Map } = await google.maps.importLibrary("maps");
+  const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+  // The map, centered at Los Angeles
+  map = new Map(document.getElementById("map"), {
+    zoom: 8,
+    center: position,
+  });
+  //inital marker at Los Angeles
+  const marker = new AdvancedMarkerElement({
+    map: map,
+    position: position,
+    title: "Los Angeles",
+  });
+  geocoder = new google.maps.Geocoder();
+  //second marker
+  tmarker = new google.maps.Marker({
+    map,
+  });
+  map.addListener("click", (e) => {
+    print({ location: e.latLng });
+  });
+  clear();
+  
+}
+function clear() {
+	tmarker.setMap(null);
+	responseDiv.style.display = "none";
+}
+
+function geocode(request) {
+	clear();
+	geocoder
+		.geocode(request)
+		.then((result) => {
+			const { results } = result;
+
+      		map.setCenter(results[0].geometry.location);
+      		tmarker.setPosition(results[0].geometry.location);
+      		tmarker.setMap(map);
+      		responseDiv.style.display = "block";
+      		response.innerText = JSON.stringify(result, null, 2);
+      		return results;
+    	})
+    	.catch((e) => {
+      		alert("Geocode was not successful for the following reason: " + e);
+    	});
+}
+initMap();
+
+    </script>
+  </div>
+
+</div>
+
+<script>
+	/* Open when someone clicks on the span element */
+	function openNav() {
+  		document.getElementById("myNav").style.width = "100%";
+	}
+
+	/* Close when someone clicks on the "x" symbol inside the overlay */
+	function closeNav() {
+  		document.getElementById("myNav").style.width = "0%";
+	}
+</script>
+</body>
+</html>
