@@ -1,9 +1,9 @@
 # USC CSCI201 Fall 2023: Assignment4
 
-**Assignment**
+**Assignment**:
 Create a website using Tomcat Server that allows users to interact with restaurants
 
-**Built With**
+**Built With**:
   Eclipse
   Tomcat9.0
   GSON
@@ -15,7 +15,7 @@ Create a website using Tomcat Server that allows users to interact with restaura
   SQL
   Google Maps API
 
-**Features**
+**Features**:
   Home Page
   Log In/Sign Up Page
   Favorites Page
