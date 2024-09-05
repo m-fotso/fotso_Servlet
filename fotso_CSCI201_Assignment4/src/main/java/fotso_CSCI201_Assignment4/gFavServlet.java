@@ -100,7 +100,7 @@ public class gFavServlet extends HttpServlet {
 					HttpRequest serequest = HttpRequest.newBuilder()
 						    .uri(URI.create("https://api.yelp.com/v3/businesses/search?latitude="+sendLa+"&longitude="+sendLo+"&term="+sendName.replace(" ", "%20")+"&sort_by=best_match&limit=1"))
 						    .header("accept", "application/json")
-						    .header("Authorization", "Bearer Mp4d8Az47GO6cwrSAbbu1eZ4LQ2eQRi4hICPJWro6qBZhdmJfhpKOTCqguW4GlX255d3rmoPKeSjMgmh7FXuCkgo7pjEaC9dg9i3vsvsHOmtUFxtbYoQftorbHA3ZXYx")
+						    .header("Authorization", "Bearer insert_key")
 						    .method("GET", HttpRequest.BodyPublishers.noBody())
 						    .build();
 						HttpResponse<String> nresponse;
