@@ -1,4 +1,4 @@
-# USC CSCI201 Fall 2023: Assignment4
+# USC CSCI201 Recipe App
 
 **Assignment**:
 Create a website using Tomcat Server that allows users to interact with restaurants
